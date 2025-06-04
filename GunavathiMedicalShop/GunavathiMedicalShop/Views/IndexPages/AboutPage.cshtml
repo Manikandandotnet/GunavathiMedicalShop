@@ -1,0 +1,51 @@
+﻿
+@{
+    ViewBag.Title = "AboutPage";
+}
+
+
+<!-- about section -->
+<section class="about_section layout_padding">
+    <div class="container">
+        <div class="custom_heading-container ">
+            <h2>
+                About Us
+            </h2>
+        </div>
+
+        <div class="img-box">
+           
+            <img src="~/Content/images/about-image.jpg" />
+                   </div>
+        <div style="color:black" class="detail-box">
+            <p>
+                We believe that great work culture is a vital ingredient to a company’s success.
+                Our team members are encouraged to take ownership and work as a unit.
+                Every team member inspires and motivates other members to contribute to the team’s success.
+            </p>
+
+
+
+            <p>
+
+                Listening to each patient to understand their situation and feelings
+                Making sure the families of patients are comfortable and have sufficient information
+                Considering each one the same, not giving preference to anyone
+                Being friendly and approachable with patients and their families
+                Taking ownership for our success
+                Meeting all commitments made to patients, doctors, our colleagues and all other stakeholders
+                Learning from mistakes and not blaming others when things go wrong
+                Delivering safe patient care in a timely and efficient manner
+                Doing whatever it takes whether it is a part of the job or not
+                Questioning colleagues when they do not deliver on what they are supposed to
+            </p>
+            <div class="d-flex justify-content-center">
+               
+                    @Html.ActionLink("Contact", "ContactPage", "IndexPages", new { area = "" }, new { @class = "" })
+
+                
+            </div>
+        </div>
+    </div>
+</section>
+

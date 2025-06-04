@@ -1,0 +1,52 @@
+﻿@model GunavathiMedicalShop.Models.PVerificationModel
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h4 class="text-center mt-5 mb-5" style="color:chocolate">Prescription Verification Details</h4>
+<hr />
+<div class="offset-5 text-dark">
+
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.PName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.PName)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.PresimagePath)
+        </dt>
+
+        <dd>
+            <img src="~/Content//PrescriptionImage/@Model.PresimagePath" height="100" style="border-radius:5px" />
+
+
+
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.verifystatus)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.verifystatus)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.pharmacistnotes)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.pharmacistnotes)
+        </dd>
+
+    </dl>
+</div>
+<p class="offset-5 mt-2">
+    @Html.ActionLink("Edit", "Edit", new { id = Model.id }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

@@ -1,0 +1,64 @@
+﻿@model GunavathiMedicalShop.Models.SalesReport
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h4 class="text-center mt-5 mb-5" style="color:chocolate">Sales Report Details</h4>
+<hr />
+<div class="offset-5 text-dark">
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.ReportID)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ReportID)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.StartDate)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.StartDate)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.EndDate)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.EndDate)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Totalsales)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Totalsales)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Avgordervalue)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Avgordervalue)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Topsellproducts)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Topsellproducts)
+        </dd>
+
+    </dl>
+</div>
+<p class="offset-5 mt-3">
+    @Html.ActionLink("Edit", "Edit", new { id = Model.id }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

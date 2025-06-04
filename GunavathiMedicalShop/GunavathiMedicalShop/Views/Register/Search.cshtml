@@ -1,0 +1,100 @@
+﻿@model IEnumerable<GunavathiMedicalShop.Models.RegisterModel>
+
+@{
+    ViewBag.Title = "Search";
+}
+
+<h2 style="color:chocolate" class="text-center mt-5 mb-5">Search To Registered User Details</h2>
+<hr/>
+<p>
+    @Html.ActionLink("Back To Index", "Index")
+</p>
+
+@using(Html.BeginForm())
+{
+
+
+@Html.AntiForgeryToken();
+    <div class="form-horizontal offset-5 text-dark">
+   
+        @Html.ValidationSummary(true,"",new { @class = "text-danger" })
+
+        <div class="form-group">
+            <label for="Search">Search Register Details</label>
+            <input type="search" name="Search" class="form-control"id="Search" placeholder="Search Register Details" />
+        </div>
+        
+
+        <div class="form-group mt-2 mb-5">
+            <div class="col-md-offset-2 col-md-10">
+
+                <input type="submit" value="Search" class="btn btn-success" />
+            </div>
+        </div>
+
+
+    </div>
+
+
+ }
+
+
+
+<table class="table table-primary table-hover">
+    <tr style="vertical-align:middle">
+        <th>
+            @Html.DisplayNameFor(model => model.Usernames)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.UserType)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Email)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.ContactNo)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Addresses)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Passwords)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.CPasswords)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr style="vertical-align:middle">
+        <td>
+            @Html.DisplayFor(modelItem => item.Usernames)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.UserType)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Email)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.ContactNo)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Addresses)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Passwords)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.CPasswords)
+        </td>
+        <td>
+            @*@Html.ActionLink("Edit", "Edit", new { id=item.id }) |
+            @Html.ActionLink("Details", "Details", new { id=item.id }) |
+            @Html.ActionLink("Delete", "Delete", new { id=item.id })*@
+        </td>
+    </tr>
+ }
+
+</table>

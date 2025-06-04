@@ -1,0 +1,49 @@
+﻿@model GunavathiMedicalShop.Models.DrugHealthInfoModel
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h4 class="text-center mt-5 mb-5" style="color:chocolate">Details of Drug Health Information</h4>
+<hr />
+<div class="offset-5 text-dark">
+
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Medication)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Medication)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Usageinstructions)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Usageinstructions)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Sideeffects)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Sideeffects)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Interactions)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Interactions)
+        </dd>
+
+    </dl>
+</div>
+<p class="offset-5">
+    @Html.ActionLink("Edit", "Edit", new { id = Model.id }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

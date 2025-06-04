@@ -1,0 +1,73 @@
+﻿@model GunavathiMedicalShop.Models.RegisterModel
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h4 style="color:chocolate" class="text-center mt-5 mb-5">Registered User Details</h4>
+<hr />
+<div class="offset-5 text-dark">
+
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Usernames)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Usernames)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.UserType)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.UserType)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Email)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Email)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ContactNo)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ContactNo)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Addresses)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Addresses)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Passwords)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Passwords)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.CPasswords)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.CPasswords)
+        </dd>
+
+    </dl>
+</div>
+<p class="offset-5 mt-3">
+    @Html.ActionLink("Edit", "Edit", new { id = Model.id }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

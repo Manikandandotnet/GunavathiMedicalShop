@@ -1,0 +1,261 @@
+﻿
+@{
+    ViewBag.Title = "AdminPage";
+}
+
+
+
+
+
+
+<center class="mt-5 mb-5">
+    <h2 style="color:chocolate">Welcome To Admin Controls</h2>
+</center>
+
+
+
+<div class="container">
+    <div class="row">
+
+        <div class="col">
+
+            <div class="card" style="width: 18rem;color:darkolivegreen">
+           
+                <div class="card-body" style="background-color:aqua">
+                    <h5 class="card-title">Order Items Details</h5>
+
+
+                    @*linkName   ActionName    Controller*@
+                    @Html.ActionLink("Order-Item Info", "Index", "OrderItem", new { area = "" }, new { @class = "btn btn-primary" })
+
+
+                </div>
+            </div>
+        </div>
+
+
+        <div class="col">
+
+            <div class="card" style="width: 18rem; color: darkolivegreen">
+           
+                <div class="card-body" style="background-color:aqua">
+                    <h5 class="card-title">Customer CallBack Request Details</h5>
+                    @*linkName   ActionName    Controller*@
+                    @Html.ActionLink("Request Info", "Index", "CallBackRequest", new { area = "" }, new { @class = "btn btn-primary" })
+
+
+
+                </div>
+            </div>
+        </div>
+
+
+
+        <div class="col">
+
+            <div class="card" style="width: 18rem; color: darkolivegreen">
+           
+                <div class="card-body" style="background-color:aqua">
+                    <h5 class="card-title">Registered User Details</h5>
+
+
+                    @*linkName   ActionName    Controller*@
+                    @Html.ActionLink("Register", "Index", "Register", new { area = "" }, new { @class = "btn btn-primary" })
+
+                </div>
+            </div>
+        </div>
+
+
+
+
+    </div>
+</div>
+
+
+@*2nd Row Container*@
+
+
+<div class="container mt-5">
+    <div class="row">
+
+        <div class="col">
+
+            <div class="card" style="width: 18rem; color: darkolivegreen">
+           
+                <div class="card-body" style="background-color:aqua">
+                    <h5 class="card-title">Medication List Information Details</h5>
+
+
+                    @*linkName   ActionName    Controller*@
+                    @Html.ActionLink("Medicine List Info", "Index", "MedicationList", new { area = "" }, new { @class = "btn btn-primary" })
+
+
+           
+                </div>
+            </div>
+        </div>
+
+
+        <div class="col">
+
+            <div class="card" style="width: 18rem; color: darkolivegreen">
+           
+                <div class="card-body" style="background-color:aqua">
+                    <h5 class="card-title"> Prescription Related Details</h5>
+                    @*linkName   ActionName    Controller*@
+                    @Html.ActionLink("Priscription Info", "Index", "prescription", new { area = "" }, new { @class = "btn btn-primary" })
+
+
+
+                </div>
+            </div>
+        </div>
+
+
+
+        <div class="col">
+
+            <div class="card" style="width: 18rem; color: darkolivegreen">
+           
+                <div class="card-body" style="background-color:aqua">
+                    <h5 class="card-title">Prescription Verification Details</h5>
+                    @*linkName   ActionName    Controller*@
+                    @Html.ActionLink("Prescription Verify Info", "Index", "PVerification", new { area = "" }, new { @class = "btn btn-primary" })
+                          </div>
+            </div>
+        </div>
+
+
+
+
+    </div>
+</div>
+
+
+
+
+@*3rd  Row Container*@
+
+
+<div class="container mt-5">
+    <div class="row">
+
+        <div class="col">
+
+            <div class="card" style="width: 18rem; color: darkolivegreen">
+           
+                <div class="card-body" style="background-color:aqua">
+                    <h5 class="card-title">Drug Health Information Details</h5>
+
+
+                    @*linkName   ActionName    Controller*@
+                    @Html.ActionLink("Drug Health Info", "Index", "DrugHealthInfo", new { area = "" }, new { @class = "btn btn-primary" })
+
+
+           
+                </div>
+            </div>
+        </div>
+
+
+        <div class="col">
+
+            <div class="card" style="width: 18rem; color: darkolivegreen">
+                @*<img src="~/Content/img/subject.jpg" class="card-img-top" alt="...">*@
+                <div class="card-body" style="background-color:aqua">
+                    <h5 class="card-title"> Inventory Details</h5>
+                    @*linkName   ActionName    Controller*@
+                    @Html.ActionLink("Inventory Info", "Index", "Inventory", new { area = "" }, new { @class = "btn btn-primary" })
+
+
+
+                </div>
+            </div>
+        </div>
+
+
+
+        <div class="col">
+
+            <div class="card" style="width: 18rem; color: darkolivegreen">
+           
+                <div class="card-body" style="background-color:aqua">
+                    <h5 class="card-title">Inventory Report</h5>
+                    @*linkName   ActionName    Controller*@
+                    @Html.ActionLink("Inventory Report Info", "Index", "InventoryReport", new { area = "" }, new { @class = "btn btn-primary" })
+                        </div>
+            </div>
+        </div>
+
+
+
+
+    </div>
+</div>
+
+
+
+
+
+@*4th  Row Container*@
+
+
+<div class="container mt-5 mb-5">
+    <div class="row">
+
+        <div class="col">
+
+            <div class="card" style="width: 18rem; color: darkolivegreen">
+           
+                <div class="card-body" style="background-color:aqua">
+                    <h5 class="card-title">SellsReport Information Details</h5>
+
+
+                    @*linkName   ActionName    Controller*@
+                    @Html.ActionLink("Sell-Report Info", "Index", "SalesReport", new { area = "" }, new { @class = "btn btn-primary" })
+
+
+           
+                </div>
+            </div>
+        </div>
+
+
+        <!--<div class="col">
+
+            <div class="card" style="width: 18rem;">
+                <img src="~/Content/img/subject.jpg" class="card-img-top" alt="...">
+                <div class="card-body" style="background-color:aqua">
+                    <h5 class="card-title"> Inventory Details</h5>-->
+                    @*linkName   ActionName    Controller*@
+                    <!--@Html.ActionLink("Inventory Info", "Index", "Inventory", new { area = "" }, new { @class = "btn btn-primary" })
+
+
+
+                </div>
+            </div>
+        </div>
+
+
+
+        <div class="col">
+
+            <div class="card" style="width: 18rem;">
+                <img src="..." class="card-img-top" alt="...">
+                <div class="card-body" style="background-color:aqua">
+                    <h5 class="card-title">Inventory Report</h5>-->
+                    @*linkName   ActionName    Controller*@
+                    <!--@Html.ActionLink("Inventory Report Info", "Index", "InventoryReport", new { area = "" }, new { @class = "btn btn-primary" })-->
+                    @*<a href="#" class="btn btn-primary">Go somewhere</a>*@
+                <!--</div>
+            </div>
+        </div>-->
+
+
+
+
+    </div>
+</div>
+
+

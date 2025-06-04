@@ -1,0 +1,72 @@
+﻿@model GunavathiMedicalShop.Models.OrderModel
+
+@{
+    ViewBag.Title = "DeleteOrder";
+}
+
+
+<h4 style="color:chocolate" class="text-center mt-5 mb-5">Delete Order Details</h4>
+<hr />
+<h5 class="text-center" style="color:mediumseagreen">Are you sure you want to delete this?</h5>
+<div class="offset-5 text-dark">
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.OrderID)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.OrderID)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.CustomerID)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.CustomerID)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Orderdate)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Orderdate)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Status)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Status)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Paymentmethod)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Paymentmethod)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Totalamount)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Totalamount)
+        </dd>
+
+    </dl>
+
+    @using (Html.BeginForm())
+    {
+        @Html.AntiForgeryToken()
+
+        <div class="form-actions no-color mt-3">
+            <input type="submit" value="Delete" class="btn btn-danger" /> |
+            @Html.ActionLink("Back to List", "IndexOrder")
+        </div>
+    }
+</div>

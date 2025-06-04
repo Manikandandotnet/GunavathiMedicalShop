@@ -1,0 +1,111 @@
+﻿@model GunavathiMedicalShop.Models.MedicationListModel
+
+@{
+    ViewBag.Title = "Delete";
+}
+<h4 class="text-center mt-5 mb-5" style="color:chocolate">Delete Medication List Details</h4>
+<hr />
+
+
+<h5 class="text-center" style="color:mediumseagreen">Are you sure you want to delete this?</h5>
+<div class="offset-5 text-dark">
+
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.ProductID)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ProductID)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Name)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Name)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Description)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Description)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.price)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.price)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Dosage)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Dosage)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Expirationdate)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Expirationdate)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ImagePath)
+        </dt>
+
+        <dd>
+
+            @*@Html.DisplayFor(model => model.ImagePath)*@
+
+            <img src="~/Content/profiles/@Model.ImagePath" height="100" style="border-radius:5px" />
+
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.BrandID)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.BrandID)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.BrandName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.BrandName)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.MedicationBrandID)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.MedicationBrandID)
+        </dd>
+
+    </dl>
+
+    @using (Html.BeginForm())
+    {
+        @Html.AntiForgeryToken()
+
+        <div class="form-actions no-color">
+            <input type="hidden" name="imagepath" value="@Model.ImagePath" />
+
+            <input type="submit" value="Delete" class="btn btn-primary" /> |
+            @Html.ActionLink("Back to List", "Index")
+        </div>
+    }
+</div>

@@ -1,0 +1,49 @@
+﻿@model GunavathiMedicalShop.Models.InventoryModel
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h4 class="text-center mt-5 mb-5" style="color:chocolate">Details Of Inventory Information </h4>
+<hr />
+<div class="offset-5 text-dark">
+ 
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Stocklevels)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Stocklevels)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Reorderpoints)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Reorderpoints)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.SupplierInfo)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.SupplierInfo)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.BatchNo)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.BatchNo)
+        </dd>
+
+    </dl>
+</div>
+<p class="offset-5">
+    @Html.ActionLink("Edit", "Edit", new { id = Model.id }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

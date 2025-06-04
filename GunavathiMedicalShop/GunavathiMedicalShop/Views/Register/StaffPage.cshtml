@@ -1,0 +1,138 @@
+﻿
+@{
+    ViewBag.Title = "StaffPage";
+}
+
+
+
+<center class="mt-5 mb-5">
+    <h2 style="color:chocolate">Welcome To Staff-Accessing Controls</h2>
+</center>
+
+
+
+
+
+        <div class="container mt-5">
+            <div class="row">
+
+                <div class="col">
+
+                    <div class="card" style="width: 18rem; color: darkolivegreen">
+                    
+                        <div class="card-body" style="background-color:aqua">
+                            <h5 class="card-title">Medication List Information Details</h5>
+
+
+                            @*linkName   ActionName    Controller*@
+                            @Html.ActionLink("Medicine List Info", "Index", "MedicationList", new { area = "" }, new { @class = "btn btn-primary" })
+
+
+                    
+                        </div>
+                    </div>
+                </div>
+
+
+
+
+                <div class="col">
+
+                    <div class="card" style="width: 18rem; color: darkolivegreen">
+                  
+                        <div class="card-body" style="background-color:aqua">
+                            <h5 class="card-title"> Prescription Related Details</h5>
+                            @*linkName   ActionName    Controller*@
+                            @Html.ActionLink("Priscription Info", "Index", "prescription", new { area = "" }, new { @class = "btn btn-primary" })
+
+
+
+                        </div>
+                    </div>
+                </div>
+
+
+
+                <div class="col">
+
+                    <div class="card" style="width: 18rem; color: darkolivegreen">
+                        
+                        <div class="card-body" style="background-color:aqua">
+                            <h5 class="card-title">Prescription Verification Details</h5>
+                            @*linkName   ActionName    Controller*@
+                            @Html.ActionLink("Prescription Verify Info", "Index", "PVerification", new { area = "" }, new { @class = "btn btn-primary" })
+                        
+                        </div>
+                    </div>
+                </div>
+
+
+
+            </div>
+        </div>
+
+
+        @*2nd Row Container*@
+
+
+        <div class="container mt-5 mb-5">
+            <div class="row">
+
+                <div class="col">
+
+                    <div class="card" style="width: 18rem; color: darkolivegreen">
+                  
+                        <div class="card-body" style="background-color:aqua">
+                            <h5 class="card-title">Drug Health Information Details</h5>
+
+
+                            @*linkName   ActionName    Controller*@
+                            @Html.ActionLink("Drug Health Info", "Index", "DrugHealthInfo", new { area = "" }, new { @class = "btn btn-primary" })
+
+
+                         </div>
+                    </div>
+                </div>
+
+
+
+                <div class="col">
+
+                    <div class="card" style="width: 18rem; color: darkolivegreen">
+                   
+                        <div class="card-body" style="background-color:aqua">
+                            <h5 class="card-title">Order Items Details</h5>
+
+
+                            @*linkName   ActionName    Controller*@
+                            @Html.ActionLink("Order-Item Info", "Index", "OrderItem", new { area = "" }, new { @class = "btn btn-primary" })
+
+
+                        </div>
+                    </div>
+                </div>
+
+
+
+                <!--<div class="col">
+
+    <div class="card" style="width: 18rem;">
+        <img src="..." class="card-img-top" alt="...">
+        <div class="card-body" style="background-color:aqua">
+            <h5 class="card-title">Card title</h5>
+            <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>-->
+                @*linkName   ActionName    Controller*@
+                <!--@Html.ActionLink("Register", "Index", "Register", new { area = "" }, new { @class = "btn btn-primary" })-->
+                @*<a href="#" class="btn btn-primary">Go somewhere</a>*@
+                <!--</div>
+        </div>
+    </div>-->
+
+
+
+
+            </div>
+        </div>
+
+
+

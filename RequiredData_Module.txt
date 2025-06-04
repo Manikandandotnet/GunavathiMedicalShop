@@ -1,0 +1,541 @@
+the name of project is Gunavathi Medical shop. this project related modules and also need for a each related required data.
+ Here are some key modules for your Gunavathi Medical shop project, along with the required data for each:
+
+Modules and Required Data
+User Management
+
+Customer Accounts: Usernames, passwords, email addresses, contact details, addresses.
+
+Admin Accounts: Usernames, passwords, roles (e.g., admin, pharmacist), permissions.
+
+Authentication: Login, registration, password reset.
+
+Product Management
+==================================================================================================================================================================
+Medication Listings: Product ID, name, description, price, brand, dosage, expiration date, images.
+
+===================================================================================================================================================================
+id	ProductID	Name	            Description	                      price	Brand	        Dosage	Expirationdate	ImagePath
+1	PRD001   	Paracetamol	Pain relief and fever reducer   	50	PharmaCo	500mg	2025-12-31	images/paracetamol.jpg
+2	PRD002	       Ibuprofen	Pain relief and anti-inflammatory	75	HealthPlus	200mg	2024-11-30	images/ibuprofen.jpg
+3	PRD003	       Aspirin	        Pain relief and blood thinner	        40	MediLife	100mg	2026-01-15	images/aspirin.jpg
+
+
+
+
+
+
+
+
+
+### Second Normal Form (2NF) Overview
+2NF ensures that all non-key attributes are fully functionally dependent on the primary key. 
+It eliminates partial dependencies, which occur when a non-key attribute is dependent on only part of a composite primary key.
+
+### Initial Table Structure
+The initial structure of the `tbl_MedicationList` table is as follows:
+
+```sql
+CREATE TABLE tbl_MedicationList
+(
+    id INT IDENTITY(1,1),
+    ProductID VARCHAR(100), 
+    Name VARCHAR(100), 
+    Description VARCHAR(100), 
+    price VARCHAR(100),
+    Brand VARCHAR(100),
+    Dosage VARCHAR(100), 
+    Expirationdate DATE,
+    ImagePath VARCHAR(100)
+);
+```
+
+### Problem with Initial Structure
+In this structure:
+- `ProductID` is a candidate for the primary key.
+- Attributes like `Brand` might repeat across multiple products, leading to redundancy.
+- We need to ensure that all attributes are fully dependent on `ProductID`.
+
+### Steps to Achieve 2NF
+
+#### Step 1: Identify the Primary Key
+`ProductID` is the primary key. 
+
+#### Step 2: Create Separate Tables to Eliminate Partial Dependencies
+
+1. **Medication Table:**
+   This table will contain basic information about each medication.
+
+   ```sql
+   CREATE TABLE tbl_Medication
+   (
+       ProductID VARCHAR(100) PRIMARY KEY, 
+       Name VARCHAR(100), 
+       Description VARCHAR(100),
+       price VARCHAR(100),
+       Dosage VARCHAR(100), 
+       Expirationdate DATE,
+       ImagePath VARCHAR(100)
+   );
+   ```
+
+2. **Brand Table:**
+   This table will contain information about the brand, ensuring that brand data is not repeated unnecessarily.
+
+   ```sql
+   CREATE TABLE tbl_Brand
+   (
+       BrandID INT IDENTITY(1,1) PRIMARY KEY, 
+       BrandName VARCHAR(100)
+   );
+   ```
+
+3. **Medication_Brand Linking Table:**
+   This table will link medications with their respective brands.
+
+   ```sql
+   CREATE TABLE tbl_MedicationBrand
+   (
+       MedicationBrandID INT IDENTITY(1,1) PRIMARY KEY,
+       ProductID VARCHAR(100) FOREIGN KEY REFERENCES tbl_Medication(ProductID),
+       BrandID INT FOREIGN KEY REFERENCES tbl_Brand(BrandID)
+   );
+   ```
+
+### Inserting Data
+
+#### Insert into `tbl_Medication`
+```sql
+INSERT INTO tbl_Medication (ProductID, Name, Description, price, Dosage, Expirationdate, ImagePath) VALUES
+('PRD001', 'Paracetamol', 'Pain relief and fever reducer', '50', '500mg', '2025-12-31', 'images/paracetamol.jpg'),
+('PRD002', 'Ibuprofen', 'Pain relief and anti-inflammatory', '75', '200mg', '2024-11-30', 'images/ibuprofen.jpg'),
+('PRD003', 'Aspirin', 'Pain relief and blood thinner', '40', '100mg', '2026-01-15', 'images/aspirin.jpg');
+```
+
+#### Insert into `tbl_Brand`
+```sql
+INSERT INTO tbl_Brand (BrandName) VALUES
+('PharmaCo'),
+('HealthPlus'),
+('MediLife');
+```
+
+#### Insert into `tbl_MedicationBrand`
+```sql
+INSERT INTO tbl_MedicationBrand (ProductID, BrandID) VALUES
+('PRD001', 1),
+('PRD002', 2),
+('PRD003', 3);
+```
+
+### Benefits of Splitting the Table
+1. **No Partial Dependencies**: Each non-key attribute is fully dependent on the primary key.
+2. **Reduced Redundancy**: Brand information is stored separately, minimizing data duplication.
+3. **Improved Data Integrity**: Ensures consistency and accuracy in the data by maintaining proper relationships.
+
+### Final Structure and Data
+
+#### `tbl_Medication`
+| ProductID | Name        | Description                      | price | Dosage | Expirationdate | ImagePath              |
+|-----------|-------------|----------------------------------|-------|--------|----------------|------------------------|
+| PRD001    | Paracetamol | Pain relief and fever reducer    | 50    | 500mg  | 2025-12-31     | images/paracetamol.jpg |
+| PRD002    | Ibuprofen   | Pain relief and anti-inflammatory| 75    | 200mg  | 2024-11-30     | images/ibuprofen.jpg   |
+| PRD003    | Aspirin     | Pain relief and blood thinner    | 40    | 100mg  | 2026-01-15     | images/aspirin.jpg     |
+
+#### `tbl_Brand`
+| BrandID | BrandName  |
+|---------|------------|
+| 1       | PharmaCo   |
+| 2       | HealthPlus |
+| 3       | MediLife   |
+
+#### `tbl_MedicationBrand`
+| MedicationBrandID | ProductID | BrandID |
+|-------------------|-----------|---------|
+| 1                 | PRD001    | 1       |
+| 2                 | PRD002    | 2       |
+| 3                 | PRD003    | 3       |
+
+By splitting the original table into these three related tables, we ensure that the design adheres to 2NF, reducing redundancy and improving data integrity.
+------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+1. it is already in the First Normal Form (1NF) and that all non-key attributes are fully functional dependent on the primary key.
+
+2. `tbl_MedicationList`, we can observe that the `ProductID` attribute is likely the candidate for a primary key. However, to fulfill the requirements of 2NF,
+ we need to ensure there are no partial dependencies on any subset of the primary key (if there are composite primary keys).
+
+3.Considering a single primary key `ProductID`, the table appears to have a straightforward design with non-composite keys.
+ 4.Let's break down the attributes to ensure they are fully functional dependent on `ProductID`.
+
+5.### Step-by-Step Application of 2NF
+
+1. **Identify the Primary Key:**
+   Let's use `ProductID` as the primary key for this example.
+
+2. **Create Separate Tables to Eliminate Partial Dependencies:**
+
+- **Medication Table:**
+
+```sql
+6.CREATE TABLE tbl_Medication
+(
+    ProductID VARCHAR(100) PRIMARY KEY, 
+    Name VARCHAR(100), 
+    Description VARCHAR(100),
+    price VARCHAR (100),
+    Dosage VARCHAR(100), 
+    Expirationdate DATE,
+    ImagePath VARCHAR(100)
+);
+```
+
+- **Brand Table:** If the `Brand` information is repetitive and non-dependent on `ProductID`, we move it to a separate table to ensure no partial dependency.
+
+```sql
+7.CREATE TABLE tbl_Brand
+(
+    BrandID INT IDENTITY(1,1) PRIMARY KEY, 
+    BrandName VARCHAR(100)
+);
+```
+
+- **Medication_Brand Linking Table:**
+
+```sql
+8.CREATE TABLE tbl_MedicationBrand
+(
+    MedicationBrandID INT IDENTITY(1,1) PRIMARY KEY,
+    ProductID VARCHAR(100) FOREIGN KEY REFERENCES tbl_Medication(ProductID),
+    BrandID INT FOREIGN KEY REFERENCES tbl_Brand(BrandID)
+);
+```
+
+
+=========================================================================================================================================================================
+
+
+
+
+
+
+
+
+Inventory Management: Stock levels, reorder points, supplier information, batch numbers.
+
+
+
+id	Stocklevels	Reorderpoints	SupplierInfo	BatchNo
+1	100	              20	PharmaCo	BATCH001
+2	250	              50	HealthPlus	BATCH002
+3	150	              30	MediLife	BATCH003
+
+
+
+
+
+
+
+
+
+Order Management
+
+Orders: Order ID, customer ID, order date, status (e.g., pending, shipped, delivered), payment method, total amount.
+
+
+id	OrderID	CustomerID	Orderdate	Status	   Paymentmethod	  Totalamount
+1	ORD001	CUST001  	2024-12-15	pending	     credit card	   500.00
+2	ORD002	CUST002	        2024-12-16	shipped         UPI	           750.00
+3	ORD003	CUST003	        2024-12-17	delivered	cash on deliver     1200.50
+
+
+
+
+
+
+
+
+
+
+
+Order Items: Order ID, product ID, quantity, price.
+
+
+
+id	OrderID	ProductID	Quantity	Price
+1	ORD001	PRD001     	2	       50.00
+2	ORD002	PRD002    	1	        75.00
+3	ORD003	PRD003   	3	        40.00
+
+
+
+
+Shipping Details: Shipping method, tracking number, estimated delivery date.
+
+Payment Processing
+
+Payment Methods: Payment method ID, type (e.g., credit card, UPI), details (e.g., card number, expiration date).
+
+
+
+
+id	PaymentmethodID	  CardType	Cardnumber	      Expirationdate
+1	PM001	         credit card	1234567812345678	2026-12-31
+2	PM002            	UPI	user@upi	          NULL
+3	PM003	         credit card	8765432187654321	2025-06-30
+
+
+
+
+
+Transaction Records: Transaction ID, order ID, payment method ID, amount, status (e.g., pending, completed, refunded).
+
+
+
+id	TransactionID	OrderID	paymentmethodID	Amount	Status
+1	TXN001   	ORD001	   PM001	500.00	pending
+2	TXN002	        ORD002	   PM002	750.00	completed
+3	TXN003	        ORD003	   PM003	1200.50	refunded
+
+
+
+
+
+
+
+
+Shopping Cart
+
+Cart Items: Cart ID, product ID, quantity, price.
+
+Cart Operations: Add to cart, remove from cart, update quantity, checkout.
+
+Prescription Management
+======================================================================================================================================================================
+Prescription Records: Prescription ID, customer ID, doctor ID, medication list, dosage, frequency, duration.
+======================================================================================================================================================================
+
+id	PrescriptionID	CustomerID	DoctorID	Medicationlist	            Dosage	Frequency               	Duration
+1	PRES001 	 CUST001	DOC001	        Paracetamol, Ibuprofen	500mg, 200mg	Twice a day, Once a day	    5 days, 7 days
+2	PRES002	         CUST002	DOC002	                     Aspirin     100mg    	Once a day	             10 days
+3	PRES003	         CUST003	DOC003	                Amoxicillin	250mg	       Three times a day	     7 days
+
+
+
+
+
+
+
+### Second Normal Form (2NF) Overview
+2NF requires that:
+1. The table must be in First Normal Form (1NF).
+2. There should be no partial dependencies, meaning all non-key attributes must be fully dependent on the primary key.
+
+### Initial Table Structure
+Initially, you had the following table structure which contained attributes like `Medicationlist`, `Dosage`, `Frequency`, and `Duration`.
+
+```sql
+CREATE TABLE tbl_PrescriptionRecords
+(
+    id INT IDENTITY(1,1),
+    PrescriptionID VARCHAR(100),
+    CustomerID VARCHAR(100),
+    DoctorID VARCHAR(100),
+    Medicationlist VARCHAR(100),
+    Dosage VARCHAR(100),
+    Frequency VARCHAR(100),
+    Duration VARCHAR(100)
+);
+```
+
+### Problem with Initial Structure
+- The attributes `Medicationlist`, `Dosage`, `Frequency`, and `Duration` can have multiple values and can repeat across prescriptions, causing redundancy and potential inconsistency.
+
+### Step to Achieve 2NF
+**Split the original table into two related tables to eliminate partial dependencies.**
+
+#### Step 1: Create `tbl_PrescriptionRecords`
+This table will contain the core information of the prescription, with `PrescriptionID` as the primary key.
+
+```sql
+CREATE TABLE tbl_PrescriptionRecords
+(
+    id INT IDENTITY(1,1),
+    PrescriptionID VARCHAR(100) PRIMARY KEY,
+    CustomerID VARCHAR(100),
+    DoctorID VARCHAR(100)
+);
+```
+
+#### Step 2: Create `tbl_PrescriptionDetails`
+This table will store detailed information about each medication in the prescription, with `PrescriptionID` as a foreign key.
+
+```sql
+CREATE TABLE tbl_PrescriptionDetails
+(
+    id INT IDENTITY(1,1),
+    PrescriptionID VARCHAR(100),
+    Medication VARCHAR(100),
+    Dosage VARCHAR(100),
+    Frequency VARCHAR(100),
+    Duration VARCHAR(100),
+    FOREIGN KEY (PrescriptionID) REFERENCES tbl_PrescriptionRecords(PrescriptionID)
+);
+```
+
+### Benefits of Splitting the Table
+1. **No Partial Dependencies**: Each non-key attribute is fully dependent on the primary key.
+2. **Reduced Redundancy**: Medication details are stored separately, minimizing data duplication.
+3. **Improved Data Integrity**: Ensures consistency and accuracy in the data by maintaining proper relationships.
+
+### Final Structure and Data
+
+#### `tbl_PrescriptionRecords`
+| id | PrescriptionID | CustomerID | DoctorID |
+|----|----------------|------------|----------|
+| 1  | PRES001        | CUST001    | DOC001   |
+| 2  | PRES002        | CUST002    | DOC002   |
+| 3  | PRES003        | CUST003    | DOC003   |
+
+#### `tbl_PrescriptionDetails`
+| id | PrescriptionID | Medication   | Dosage | Frequency       | Duration |
+|----|----------------|--------------|--------|-----------------|----------|
+| 1  | PRES001        | Paracetamol  | 500mg  | Twice a day     | 5 days   |
+| 2  | PRES001        | Ibuprofen    | 200mg  | Once a day      | 7 days   |
+| 3  | PRES002        | Aspirin      | 100mg  | Once a day      | 10 days  |
+| 4  | PRES003        | Amoxicillin  | 250mg  | Three times a day | 7 days  |
+
+By separating these tables, you've achieved 2NF, ensuring that your data is organized efficiently and with integrity.
+
+=========================================================================================================================================================================
+
+
+
+
+
+
+Prescription Verification: Upload of prescription image, verification status, pharmacist notes.
+
+
+id	PresimagePath	                verifystatus	pharmacistnotes
+1	images/prescription1.jpg	verified	Prescription is valid.
+2	images/prescription2.jpg	pending	         Awaiting further details from customer.
+3	images/prescription3.jpg	rejected	Invalid prescription. Contact doctor.
+
+
+
+
+
+
+
+
+
+
+
+Customer Support
+
+Support Tickets: Ticket ID, customer ID, issue description, status (e.g., open, in progress, resolved), resolution details.
+
+FAQs: Common questions and answers related to medications, orders, and delivery.
+
+Reviews and Ratings
+
+Product Reviews: Review ID, product ID, customer ID, rating, review text, date.
+
+Customer Ratings: Customer ID, average rating.
+
+Analytics and Reporting
+
+Sales Reports: Report ID, date range, total sales, average order value, top-selling products.
+
+id	ReportID	Daterange	       Totalsales	Avgordervalue	Topsellproducts
+1	SR001	  2024-12-01 to 2024-12-31	150000     	5000	       Paracetamol, Ibuprofen
+2	SR002	  2024-11-01 to 2024-11-30	100000	        4000	         Aspirin, Amoxicillin
+3	SR003	   2024-10-01 to 2024-10-31	120000	         4500	          Paracetamol, Aspirin
+
+
+
+
+
+
+
+
+
+
+
+Inventory Reports: Stock levels, expiration dates, reorder points.
+
+
+
+Here's what the data might look like after inserting it:
+
+| id | Stocklevels | Expirationdates | Reorderpoints |
+|----|-------------|-----------------|---------------|
+| 1  | 100         | 2025-12-31      | 20            |
+| 2  | 250         | 2024-11-30      | 50            |
+| 3  | 150         | 2026-01-15      | 30            |
+
+
+
+
+Customer Behavior: Page views, click-through rates, conversion rates.
+
+Healthcare Information
+
+Drug Information: Details on each medication, usage instructions, side effects, interactions.
+
+
+Here's what the data might look like after inserting it:
+
+| id | Medication  | Usageinstructions                     | Sideeffects            | Interactions                       |
+|----|-------------|---------------------------------------|------------------------|------------------------------------|
+| 1  | Paracetamol | Take one tablet every 6-8 hours       | Nausea, dizziness      | May interact with blood thinners   |
+| 2  | Ibuprofen   | Take one tablet every 4-6 hours       | Stomach upset, headache| Avoid taking with aspirin          |
+| 3  | Aspirin     | Take one tablet every 4-6 hours       | Upset stomach, heartburn| Increased risk of bleeding with blood thinners |
+
+
+
+
+
+
+
+
+
+Health Articles: Educational content on various health topics, medications, and wellness tips.
+
+
+
+
+
+
+
+
+
+
+
+Module	                   Admin	Pharmacist
+Product Management	Full access	Add and edit medication details
+Inventory Management	Full access	Manage medication inventory
+Order Management	Full access	Process medication orders
+Prescription Management	Full access	Create, update, and review prescriptions
+Inventory Reports	Full access	Access medication inventory reports
+Drug Information	Full access	Update drug information
+Register	        Full access	Limited access to register patients
+Call Back Request	Full access	Respond to medication-related requests
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

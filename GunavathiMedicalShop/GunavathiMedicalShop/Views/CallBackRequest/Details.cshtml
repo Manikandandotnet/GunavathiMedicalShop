@@ -1,0 +1,57 @@
+﻿@model GunavathiMedicalShop.Models.CallBackRequestModel
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2 class="text-center mt-5 mb-5" style="color:chocolate">Call Back Request Details</h2>
+<hr />
+
+<div class="offset-5 text-dark">
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Name)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Name)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.PhoneNumber)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.PhoneNumber)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Email)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Email)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Selectmedicine)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Selectmedicine)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Message)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Message)
+        </dd>
+
+    </dl>
+</div>
+<p class="offset-5">
+    @Html.ActionLink("Edit", "Edit", new { id = Model.id }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

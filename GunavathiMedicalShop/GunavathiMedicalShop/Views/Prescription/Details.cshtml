@@ -1,0 +1,81 @@
+﻿@model GunavathiMedicalShop.Models.Prescription
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h4 class="text-center mt-5 mb-5" style="color:chocolate">Prescription Details</h4>
+<hr />
+
+<div class="offset-5 text-dark">
+    <dl class="dl-horizontal">
+
+
+        <dt>
+            @Html.DisplayNameFor(model => model.PrescriptionID)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.PrescriptionID)
+        </dd>
+
+
+
+
+
+
+
+        <dt>
+            @Html.DisplayNameFor(model => model.CustomerID)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.CustomerID)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.DoctorID)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.DoctorID)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Medication)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Medication)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Dosage)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Dosage)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Frequency)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Frequency)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Duration)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Duration)
+        </dd>
+
+    </dl>
+</div>
+<p class="offset-5 mt-2">
+    @Html.ActionLink("Edit", "Edit", new { id = Model.id }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

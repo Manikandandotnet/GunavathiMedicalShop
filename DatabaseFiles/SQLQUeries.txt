@@ -1,0 +1,1853 @@
+
+CREATE DATABASE MedicalStore;
+
+USE MedicalStore;
+
+-------------------------------------------------------------
+     ---1.Register
+--------------------------------------------------------------
+CREATE TABLE tbl_Register
+(
+id INT IDENTITY(1,1)PRIMARY KEY,
+Usernames VARCHAR(100),
+UserType VARCHAR(100),
+Email VARCHAR(100), 
+ContactNo VARCHAR(100),
+Addresses VARCHAR(100),
+Passwords VARCHAR(100),
+CPasswords VARCHAR(100)
+);
+
+
+--------------------------------------------------------------
+  -- Stored procedure for Register Table
+------------------------------------------------------------
+
+-- create procedure
+
+CREATE PROC SP_tblRegister_Add
+(
+@Usernames VARCHAR(100),
+@UserType VARCHAR(100),
+@Email VARCHAR(100), 
+@ContactNo VARCHAR(100),
+@Addresses VARCHAR(100),
+@Passwords VARCHAR(100),
+@CPasswords VARCHAR(100)
+)
+AS BEGIN
+INSERT INTO tbl_Register
+(
+Usernames,
+UserType,
+Email, 
+ContactNo,
+Addresses, 
+Passwords,
+CPasswords
+)
+VALUES
+(
+@Usernames,
+@UserType,
+@Email, 
+@ContactNo,
+@Addresses, 
+@Passwords,
+@CPasswords
+)
+END
+
+----VIEW ALL DETAILS 
+
+CREATE PROC SP_tblRegister_VWAll
+AS BEGIN
+SELECT* FROM tbl_Register
+END
+
+--- GET ONE VIEW DETAILS
+CREATE PROC SP_tblRegister_VEone 
+(
+@id INT
+)
+AS BEGIN
+SELECT* FROM tbl_Register WHERE id=@id
+END
+
+
+--EDIT THE DETAILS
+CREATE PROC SP_tblRegister_Edit
+(
+@id INT,
+@Usernames VARCHAR(100),
+@UserType VARCHAR(100),
+@Email VARCHAR(100), 
+@ContactNo VARCHAR(100),
+@Addresses VARCHAR(100),
+@Passwords VARCHAR(100),
+@CPasswords VARCHAR(100)
+)
+AS BEGIN
+UPDATE tbl_Register SET
+Usernames=@Usernames,
+UserType=@UserType,
+Email=@Email, 
+ContactNo=@ContactNo,
+Addresses=@Addresses, 
+Passwords=@Passwords,
+CPasswords=@CPasswords
+END
+
+
+--DELETE DETAILS
+
+CREATE PROC SP_tblRegister_Delete
+(
+@id INT
+)
+AS BEGIN
+DELETE FROM tbl_Register WHERE id=@id
+END
+
+-- SEARCH THE DETAILS
+
+CREATE PROC SP_tblregister_Search
+(
+@Searchdata VARCHAR(100)
+)
+AS BEGIN
+SELECT* FROM tbl_Register WHERE Usernames LIKE '%' +@Searchdata+ '%' OR
+UserType LIKE '%' +@Searchdata+ '%' OR
+Email LIKE '%' +@Searchdata+ '%' OR 
+ContactNo LIKE '%' +@Searchdata+ '%' OR
+Addresses LIKE '%' +@Searchdata+ '%' OR 
+Passwords LIKE '%' +@Searchdata+ '%' OR
+CPasswords LIKE '%' +@Searchdata+ '%' 
+END
+
+---------------------------------------------------------------
+   --LOGIN CHECK STORED PROCEDURE
+-----------------------------------------------------------------
+
+CREATE PROC SP_LoginCheck
+(
+@Usernames VARCHAR(100),
+@UserType VARCHAR(100),
+@CPasswords VARCHAR(100)
+)
+AS BEGIN
+SELECT* FROM tbl_Register WHERE Usernames=@Usernames AND
+UserType=@UserType AND CPasswords=@CPasswords
+END
+
+
+-----------------------------------------------------------------
+      ---2.Product Management-Medication Listings
+-------------------------------------------------------------
+
+--CREATE TABLE tbl_MedicationList
+--(
+--id INT IDENTITY(1,1),
+--ProductID VARCHAR(100), 
+--Name VARCHAR(100), 
+--Description VARCHAR(100), 
+--price VARCHAR (100),
+--Brand VARCHAR(100),
+--Dosage VARCHAR(100), 
+--Expirationdate DATE,
+--ImagePath VARCHAR(100)
+--);
+
+--1. Medication Table
+--   This table will contain basic information about each medication.
+
+   
+CREATE TABLE tbl_Medication
+(
+id INT IDENTITY(1,1),
+ProductID VARCHAR(100) PRIMARY KEY, 
+Name VARCHAR(100), 
+Description VARCHAR(100),
+price VARCHAR(100),
+Dosage VARCHAR(100), 
+Expirationdate DATE,
+ImagePath VARCHAR(100)
+);
+
+
+--2. Brand Table
+--   This table will contain information about the brand, ensuring that brand data is not repeated unnecessarily.
+
+ 
+CREATE TABLE tbl_Brand
+(
+id INT IDENTITY(1,1),
+BrandID VARCHAR(100) PRIMARY KEY, 
+BrandName VARCHAR(100)
+); 
+  
+
+--3. Medication_Brand Linking Table
+--   This table will link medications with their respective brands.
+
+  
+CREATE TABLE tbl_MedicationBrand
+(
+id INT IDENTITY(1,1), 
+MedicationBrandID VARCHAR(100)PRIMARY KEY,
+ProductID VARCHAR(100) FOREIGN KEY REFERENCES tbl_Medication(ProductID),
+BrandID VARCHAR(100) FOREIGN KEY REFERENCES tbl_Brand(BrandID)
+);
+
+ALTER TABLE tbl_MedicationBrand
+ADD CONSTRAINT FK_MedicationProduct
+FOREIGN KEY (ProductID) REFERENCES tbl_Medication(ProductID);
+
+
+
+ALTER TABLE tbl_MedicationBrand
+ADD CONSTRAINT FK_MedicationProduct
+FOREIGN KEY (BrandID) REFERENCES tbl_Brand(BrandID);
+
+
+
+
+ALTER TABLE tbl_MedicationBrand
+DROP CONSTRAINT [FK__tbl_Medic__Brand__74AE54BC];
+
+ALTER TABLE tbl_MedicationBrand
+DROP CONSTRAINT [FK__tbl_Medic__Produ__73BA3083];
+
+
+
+
+
+
+
+
+
+----------------------------------------------------------------
+  -- STORED PROCEDURE
+-------------------------------------------------------------
+
+
+--- CREATE DATA PROCEDURE
+
+CREATE PROC SP_Medicationlist_Add
+(
+@ProductID VARCHAR(100), 
+@Name VARCHAR(100), 
+@Description VARCHAR(100),
+@price VARCHAR(100),
+@Dosage VARCHAR(100), 
+@Expirationdate DATE,
+@ImagePath VARCHAR(100),
+@BrandID VARCHAR(100), 
+@BrandName VARCHAR(100),
+@MedicationBrandID VARCHAR(100)
+)
+
+AS BEGIN
+INSERT INTO tbl_Medication
+(
+ProductID, 
+Name, 
+Description,
+price,
+Dosage, 
+Expirationdate,
+ImagePath
+)  
+VALUES
+(
+@ProductID, 
+@Name, 
+@Description,
+@price,
+@Dosage, 
+@Expirationdate,
+@ImagePath
+)  
+
+
+INSERT INTO tbl_Brand
+(
+BrandID, 
+BrandName 
+)
+VALUES
+(
+@BrandID, 
+@BrandName 
+)
+
+INSERT INTO tbl_MedicationBrand
+(
+MedicationBrandID, 
+ProductID, 
+BrandID 
+)
+VALUES
+(
+@MedicationBrandID, 
+@ProductID, 
+@BrandID 
+)
+
+END
+
+
+
+---VIEW ALL DETAILS
+
+
+ALTER PROC SP_Medicationlist_VWall
+AS BEGIN
+SELECT 
+Me.id, 
+Me.ProductID, 
+Me.Name, 
+Me.Description,
+Me.price,
+Me.Dosage, 
+Me.Expirationdate,
+Me.ImagePath,
+
+Br.BrandID, 
+Br.BrandName, 
+
+Mb.MedicationBrandID, 
+Mb.ProductID, 
+Mb.BrandID 
+
+FROM tbl_Medication Me
+LEFT JOIN tbl_MedicationBrand Mb ON Me.ProductID=Mb.ProductID
+
+LEFT JOIN tbl_Brand Br ON Mb.BrandID=Br.BrandID
+END
+
+--GET ONE DATA DETAILS
+
+Alter PROC SP_Medicationlist_getone
+(
+@id INT
+)
+ AS BEGIN
+SELECT 
+Me.id, 
+Me.ProductID, 
+Me.Name, 
+Me.Description,
+Me.price,
+Me.Dosage, 
+Me.Expirationdate,
+Me.ImagePath,
+
+Br.BrandID, 
+Br.BrandName, 
+
+Mb.MedicationBrandID, 
+Mb.ProductID, 
+Mb.BrandID 
+
+FROM tbl_Medication Me
+LEFT JOIN tbl_MedicationBrand Mb ON Me.ProductID=Mb.ProductID
+
+LEFT JOIN tbl_Brand Br ON Mb.BrandID=Br.BrandID
+WHERE Me.id=@id
+END
+
+
+--EDIT THE DETAILS
+
+CREATE PROC SP_Medicationlist_Edit
+(
+@id INT,
+@ProductID VARCHAR(100), 
+@Name VARCHAR(100), 
+@Description VARCHAR(100),
+@price VARCHAR(100),
+@Dosage VARCHAR(100), 
+@Expirationdate DATE,
+@ImagePath VARCHAR(100),
+@BrandID VARCHAR(100), 
+@BrandName VARCHAR(100),
+@MedicationBrandID VARCHAR(100)
+)
+ AS BEGIN
+ UPDATE tbl_Medication SET
+ProductID=@ProductID, 
+Name=@Name, 
+Description=@Description,
+price=@price,
+Dosage=@Dosage, 
+Expirationdate=@Expirationdate,
+ImagePath=@ImagePath
+WHERE id=@id
+
+UPDATE tbl_Brand SET
+BrandID=@BrandID, 
+BrandName=@BrandName
+WHERE id=@id
+
+UPDATE tbl_MedicationBrand SET
+MedicationBrandID=@MedicationBrandID, 
+ProductID=@ProductID, 
+BrandID=@BrandID 
+WHERE id=@id
+END
+  
+
+--DELETE DETAILS
+
+ALTER PROC SP_medicationlist_Delete
+(
+@id INT
+)
+AS BEGIN
+DELETE FROM tbl_MedicationBrand WHERE id=@id
+
+DELETE FROM tbl_Brand WHERE id=@id
+
+DELETE FROM tbl_Medication WHERE id=@id
+
+END
+
+
+
+TRUNCATE TABLE tbl_MedicationBrand
+TRUNCATE TABLE tbl_Brand
+TRUNCATE TABLE tbl_Medication
+
+
+
+
+
+
+
+
+-- SEARCH DATA IN DETAILS
+ALTER PROC SP_Medicationlist_Search
+(
+@Searchdata VARCHAR(100)
+)
+AS BEGIN
+SELECT 
+Me.id,
+Me.ProductID, 
+Me.Name, 
+Me.Description,
+Me.price,
+Me.Dosage, 
+Me.Expirationdate,
+Me.ImagePath,
+
+Br.BrandID, 
+Br.BrandName, 
+
+Mb.MedicationBrandID, 
+Mb.ProductID, 
+Mb.BrandID 
+
+FROM tbl_Medication Me
+LEFT JOIN tbl_MedicationBrand Mb ON Me.ProductID=Mb.ProductID
+
+LEFT JOIN tbl_Brand Br ON Mb.BrandID=Br.BrandID
+
+WHERE Me.ProductID LIKE '%' +@Searchdata+ '%' OR
+Me.Name LIKE '%' +@Searchdata+ '%' OR 
+Me.Description LIKE '%' +@Searchdata+ '%' OR
+Me.price LIKE '%' +@Searchdata+ '%' OR
+Me.Dosage LIKE '%' +@Searchdata+ '%' OR 
+Me.Expirationdate LIKE '%' +@Searchdata+ '%' OR
+Me.ImagePath LIKE '%' +@Searchdata+ '%' OR
+Br.BrandID LIKE '%' +@Searchdata+ '%' OR 
+Br.BrandName LIKE '%' +@Searchdata+ '%' OR
+Mb.MedicationBrandID LIKE '%' +@Searchdata+ '%' OR 
+Mb.ProductID LIKE '%' +@Searchdata+ '%' OR 
+Mb.BrandID LIKE '%' +@Searchdata+ '%';
+
+END
+
+
+
+
+
+
+
+----------------------------------------------------------------
+       --3.Inventory Management
+-------------------------------------------------------------------
+
+CREATE TABLE tbl_InventoryInfo
+(
+id INT IDENTITY(1,1),
+Stocklevels VARCHAR(100), 
+Reorderpoints VARCHAR(100),
+SupplierInfo VARCHAR(100),
+BatchNo VARCHAR(100)
+
+);
+
+ALTER TABLE tbl_InventoryInfo
+ADD PRIMARY KEY(id);
+---------------------------------------------------------------
+  --STORED PROCEDURE FOR INVENTORY INFO TABLE
+-------------------------------------------------------------
+
+--CREATE DATA
+
+CREATE PROC SP_tblInventoryInfo_Add
+(
+@Stocklevels VARCHAR(100), 
+@Reorderpoints VARCHAR(100),
+@SupplierInfo VARCHAR(100),
+@BatchNo VARCHAR(100)
+)
+AS BEGIN
+INSERT INTO tbl_InventoryInfo
+(
+Stocklevels, 
+Reorderpoints,
+SupplierInfo,
+BatchNo
+)
+VALUES
+(
+@Stocklevels, 
+@Reorderpoints,
+@SupplierInfo,
+@BatchNo
+)
+END
+
+
+-- VIEW ALL DATA 
+CREATE PROC SP_tbl_InventoryInfo_VWall
+AS BEGIN
+SELECT* FROM tbl_InventoryInfo
+END
+
+-- VIEW ONE DATA
+CREATE PROCEDURE SP_tblInventoryInfo_Getont
+(
+@id INT
+)
+AS BEGIN
+SELECT* FROM tbl_InventoryInfo WHERE id=@id
+END
+
+
+--EDIT DATA
+CREATE PROCEDURE SP_tblInventoryInfo_Edit
+(
+@id INT,
+@Stocklevels VARCHAR(100), 
+@Reorderpoints VARCHAR(100),
+@SupplierInfo VARCHAR(100),
+@BatchNo VARCHAR(100)
+)
+AS BEGIN
+UPDATE tbl_InventoryInfo SET
+Stocklevels=@Stocklevels, 
+Reorderpoints=@Reorderpoints,
+SupplierInfo=@SupplierInfo,
+BatchNo=@BatchNo
+WHERE id=@id
+END
+
+-- DELETE DATA
+
+CREATE PROC SP_tbl_InventoryInfo_Delete
+(
+@id INT
+)
+AS BEGIN
+DELETE FROM tbl_InventoryInfo WHERE id=@id
+END
+
+--SEARCH THE DATA
+CREATE PROC SP_tblInventoryInfo_Search
+(
+@Searchdata VARCHAR(100)
+)
+AS BEGIN
+SELECT* FROM tbl_InventoryInfo WHERE
+Stocklevels LIKE '%'+@Searchdata+ '%' OR
+Reorderpoints LIKE '%'+@Searchdata+ '%' OR
+SupplierInfo LIKE '%'+@Searchdata+ '%' OR
+BatchNo LIKE '%'+@Searchdata+ '%';
+END
+
+
+------------------------------------------------------------
+      --4.Order Management-Orders
+-------------------------------------------------------------
+
+
+
+
+
+
+
+
+CREATE TABLE tbl_Orders
+(
+id INT IDENTITY(1,1),
+OrderID VARCHAR(100),
+CustomerID VARCHAR(100),
+Orderdate DATE,
+Status VARCHAR(100),-- (e.g., pending, shipped, delivered),
+Paymentmethod VARCHAR(100),
+Totalamount FLOAT
+);
+
+
+ALTER TABLE tbl_Orders
+ADD CONSTRAINT FK_tbl_Orders_Item
+FOREIGN KEY OrderID REFERENCES tbl_OrderItems(OrderID);
+
+ALTER TABLE tbl_Orders
+DROP CONSTRAINT FK_tbl_Orders_Item
+
+--------------------------------------------------------------
+  -- STORED PROCEDURE FOR ORDERS
+--------------------------------------------------------------
+
+--CREATE DATA
+CREATE PROC SP_tblOrders_Add
+(
+
+@OrderID VARCHAR(100),
+@CustomerID VARCHAR(100),
+@Orderdate DATE,
+@Status VARCHAR(100),
+@Paymentmethod VARCHAR(100),
+@Totalamount FLOAT
+)
+AS BEGIN
+INSERT INTO tbl_Orders
+(
+OrderID,
+CustomerID,
+Orderdate,
+Status,
+Paymentmethod,
+Totalamount 
+)
+VALUES
+(
+@OrderID,
+@CustomerID,
+@Orderdate,
+@Status,
+@Paymentmethod,
+@Totalamount 
+)
+END
+
+
+
+--VIEW ALL DATA 
+CREATE PROC SP_tblOrders_VWall
+AS BEGIN
+SELECT* FROM tbl_Orders
+END
+
+
+-- VIEW ONE DATA
+CREATE PROC SP_tblOrders_Getone
+(
+@id INT
+)
+AS BEGIN
+SELECT* FROM tbl_Orders WHERE id=@id
+END
+
+
+-- EDIT DATA
+CREATE PROC SP_tblOrders_Edit
+(
+@id INT,
+@OrderID VARCHAR(100),
+@CustomerID VARCHAR(100),
+@Orderdate DATE,
+@Status VARCHAR(100),
+@Paymentmethod VARCHAR(100),
+@Totalamount FLOAT
+)
+AS BEGIN
+UPDATE tbl_Orders SET
+OrderID=@OrderID,
+CustomerID=@CustomerID,
+Orderdate=@Orderdate,
+Status=@Status,
+Paymentmethod=@Paymentmethod,
+Totalamount=@Totalamount 
+WHERE id=@id
+END
+
+--- DELETE DATA
+CREATE PROC SP_tblOrders_Delete
+(
+@id INT
+)
+AS BEGIN
+DELETE FROM tbl_Orders WHERE id=@id
+END
+
+
+--SEARCH DATA
+CREATE PROC SP_tblOrders_Search
+(
+@Searchdata VARCHAR(100)
+)
+AS BEGIN
+SELECT* FROM tbl_Orders WHERE
+OrderID LIKE '%' +@Searchdata+ '%' OR
+CustomerID LIKE '%' +@Searchdata+ '%' OR
+Orderdate LIKE '%' +@Searchdata+ '%' OR
+Status LIKE '%' +@Searchdata+ '%' OR
+Paymentmethod LIKE '%' +@Searchdata+ '%' OR
+Totalamount LIKE '%' +@Searchdata+ '%';
+END
+
+
+---GET TOTAL AMOUNT
+CREATE PROCEDURE SPtblOrders_Total 'ORD001'
+(
+@OrderID VARCHAR(100)
+)
+AS BEGIN
+SELECT SUM(Price)AS Totalamount FROM tbl_OrderItems WHERE OrderID=@OrderID
+END
+
+
+
+
+--------------------------------------------------------------
+     --5.Order Management-Order Items
+------------------------------------------------------------
+
+
+CREATE TABLE tbl_OrderItems
+(
+id INT IDENTITY(1,1),
+OrderID VARCHAR(100) PRIMARY KEY,
+ProductID VARCHAR(100),
+Quantity INT,
+Price FLOAT
+);
+
+-------------------------------------------------------------
+  -- STORED PROCEDURE FOR ORDER ITEMS
+-----------------------------------------------------------------
+
+-- CREATE DATA
+CREATE PROC SP_tblOrderItems_Add
+(
+@OrderID VARCHAR(100),
+@ProductID VARCHAR(100),
+@Quantity INT,
+@Price FLOAT
+)
+AS BEGIN
+INSERT INTO tbl_OrderItems 
+(
+OrderID,
+ProductID,
+Quantity,
+Price 
+)
+VALUES
+(
+@OrderID,
+@ProductID,
+@Quantity,
+@Price 
+)
+END
+
+-- VIEW ALL DATA
+CREATE PROC SP_tblOrderItems
+AS BEGIN
+SELECT* FROM tbl_OrderItems
+END
+
+-- VIEW ONE DATA
+CREATE PROC SP_tblOrderItems_Getone
+(
+@id INT
+)
+AS BEGIN
+SELECT* FROM tbl_OrderItems WHERE id=@id
+END
+
+-- EDIT DETAILS
+CREATE PROC SP_tblOrderItems_Edit
+(
+@id INT,
+@OrderID VARCHAR(100),
+@ProductID VARCHAR(100),
+@Quantity INT,
+@Price FLOAT
+)
+AS BEGIN
+UPDATE tbl_OrderItems SET
+OrderID=@OrderID,
+ProductID=@ProductID,
+Quantity=@Quantity,
+Price=@Price
+WHERE id=@id
+END
+
+
+-- DELETE DATA
+
+CREATE PROC SP_tblOrderItems_Delete
+(
+@id INT
+)
+AS BEGIN
+DELETE FROM tbl_OrderItems WHERE id=@id
+END
+
+
+--SEARCH DATA
+CREATE PROC SP_tblOrderItems_Search
+(
+@Searchdata VARCHAR(100)
+)
+AS BEGIN
+SELECT* FROM tbl_OrderItems WHERE
+OrderID LIKE '%' +@Searchdata+ '%' OR
+ProductID LIKE '%' +@Searchdata+ '%' OR
+Quantity LIKE '%' +@Searchdata+ '%' OR
+Price LIKE '%' +@Searchdata+ '%' ;
+END
+
+
+
+
+
+------------------------------------------------------------
+     ---6.Payment Processing - Payment Methods
+-------------------------------------------------------------
+
+
+
+CREATE TABLE tbl_PaymentMethods
+(
+id INT IDENTITY(1,1),
+PaymentmethodID VARCHAR(100),
+CardType VARCHAR(100),-- (e.g., credit card, UPI),
+Cardnumber VARCHAR(100), 
+Expirationdate DATE
+);
+
+-------------------------------------------------------------------
+    -- STROED PROCEDURE FOR Payment Methods TABLE
+--------------------------------------------------------------
+
+--CERATE DATA
+CREATE PROC SP_tblPaymentMethods_Add
+(
+@PaymentmethodID VARCHAR(100),
+@CardType VARCHAR(100),
+@Cardnumber VARCHAR(100), 
+@Expirationdate DATE
+)
+AS BEGIN
+INSERT INTO tbl_PaymentMethods
+(
+PaymentmethodID,
+CardType,
+Cardnumber, 
+Expirationdate
+)
+VALUES
+(
+@PaymentmethodID,
+@CardType,
+@Cardnumber, 
+@Expirationdate
+)
+END
+
+
+--VIEW ALL DATA 
+
+CREATE  PROC SP_tblPaymentMethods_VWall
+AS BEGIN
+SELECT* FROM tbl_PaymentMethods
+END
+
+-- VIEW ONE DATA DETAILS
+
+CREATE PROC SP_tblPaymentMethods_Getone
+(
+@id INT
+)
+AS BEGIN
+SELECT* FROM tbl_PaymentMethods
+WHERE id=@id
+END
+
+
+--EDIT DATA
+CREATE PROC SP_tblPaymentMethods_Edit
+(
+@id INT,
+@PaymentmethodID VARCHAR(100),
+@CardType VARCHAR(100),
+@Cardnumber VARCHAR(100), 
+@Expirationdate DATE
+)
+AS BEGIN
+UPDATE tbl_PaymentMethods SET
+PaymentmethodID=@PaymentmethodID,
+CardType=@CardType,
+Cardnumber=@Cardnumber, 
+Expirationdate=@Expirationdate
+
+WHERE id=@id
+END
+
+-- DELETE DATA
+CREATE PROC SP_tblPaymentMethods_Delete
+(
+@id INT
+)
+AS BEGIN
+DELETE FROM tbl_PaymentMethods WHERE id=@id
+END
+
+--SEARCH DATA
+CREATE PROC SP_tblPaymentMethods_Search
+(
+@Searchdata VARCHAR(100)
+)
+AS BEGIN
+SELECT* FROM tbl_PaymentMethods WHERE
+PaymentmethodID LIKE '%' +@Searchdata+ '%' OR
+CardType LIKE '%' +@Searchdata+ '%' OR
+Cardnumber LIKE '%' +@Searchdata+ '%' OR 
+Expirationdate LIKE '%' +@Searchdata+ '%';
+END
+
+
+
+
+
+
+
+
+
+-----------------------------------------------------------
+        --7.Payment Processing -Transaction Records
+-------------------------------------------------------------
+
+
+CREATE  TABLE tbl_TransRecords
+(
+id INT IDENTITY(1,1),
+TransactionID VARCHAR(100),
+OrderID VARCHAR(100),
+paymentmethodID VARCHAR(100),
+Amount FLOAT,
+Status VARCHAR(100) -- (e.g., pending, completed, refunded)
+);
+
+
+
+-----------------------------------------------------------------
+-- STORED PROCEDRE FOR Transaction Records
+-------------------------------------------------------------
+
+--CREATE DATA
+
+CREATE PROC SP_tbl_TransRecords_Add
+(
+@TransactionID VARCHAR(100),
+@OrderID VARCHAR(100),
+@paymentmethodID VARCHAR(100),
+@Amount FLOAT,
+@Status VARCHAR(100) 
+)
+AS BEGIN
+INSERT INTO tbl_TransRecords 
+(
+TransactionID,
+OrderID,
+paymentmethodID,
+Amount,
+Status
+)
+VALUES
+(
+@TransactionID,
+@OrderID,
+@paymentmethodID,
+@Amount,
+@Status
+)
+END
+
+
+--VIEW ALL DATA
+
+CREATE PROC SP_tblTransRecords_VWall
+AS BEGIN
+SELECT* FROM tbl_TransRecords
+END
+
+--VIEW ONE DATA
+CREATE PROC SP_tblTransRecords_Getone
+(
+id INT
+)
+AS BEGIN
+SELECT* FROM tbl_TransRecords WHERE id=@id
+END
+
+
+--EDIT DATA
+CREATE PROC SP_tblTransRecords_Edit
+(
+@ide INT,
+@TransactionID VARCHAR(100),
+@OrderID VARCHAR(100),
+@paymentmethodID VARCHAR(100),
+@Amount FLOAT,
+@Status VARCHAR(100) 
+)
+AS BEGIN
+UPDATE tbl_TransRecords SET
+TransactionID=@TransactionID,
+OrderID=@OrderID,
+paymentmethodID=@paymentmethodID,
+Amount=@Amount,
+Status=@Status
+WHERE id=@id
+END
+
+
+--DELETE DATA
+
+CREATE PROC SP_tblTransRecords_Delete
+(
+@id INT
+)
+AS BEGIN
+DELETE FROM tbl_TransRecords WHERE id=@id
+END
+
+
+--SEARCH DATA
+CREATE PROC SP_tblTransRecords_Search
+(
+@Searchdata VARCHAR(100)
+)
+AS BEGIN
+SELECT* FROM tbl_TransRecords WHERE
+TransactionID LIKE '%' +@Searchdata+ '%' OR
+OrderID LIKE '%' +@Searchdata+ '%' OR
+paymentmethodID LIKE '%' +@Searchdata+ '%' OR
+Amount LIKE '%' +@Searchdata+ '%' OR
+Status LIKE '%' +@Searchdata+ '%';
+END
+
+
+
+
+
+------------------------------------------------------------
+    --8.Prescription Management-Prescription Records
+---------------------------------------------------------------
+
+
+--CREATE TABLE tbl_PrescriptionRecords
+--(
+--id INT IDENTITY(1,1),
+--PrescriptionID VARCHAR(100),
+--CustomerID VARCHAR(100),
+--DoctorID VARCHAR(100),
+--Medicationlist VARCHAR(100),
+--Dosage VARCHAR(100),
+--Frequency VARCHAR(100),
+--Duration VARCHAR(100)
+--);
+
+
+
+--Step 1: Create `tbl_PrescriptionRecords`
+--This table will contain the core information of the prescription, with `PrescriptionID` as the primary key.
+
+
+CREATE TABLE tbl_PrescriptionRecords
+(
+id INT IDENTITY(1,1),
+PrescriptionID VARCHAR(100) PRIMARY KEY,
+CustomerID VARCHAR(100),
+DoctorID VARCHAR(100)
+);
+
+--Step 2: Create `tbl_PrescriptionDetails`
+--This table will store detailed information about each medication in the prescription, with `PrescriptionID` as a foreign key.
+
+CREATE TABLE tbl_PrescriptionDetails
+(
+id INT IDENTITY(1,1),
+PrescriptionID VARCHAR(100),
+Medication VARCHAR(100),
+Dosage VARCHAR(100),
+Frequency VARCHAR(100),
+Duration VARCHAR(100),
+FOREIGN KEY (PrescriptionID) REFERENCES tbl_PrescriptionRecords(PrescriptionID)
+);
+
+
+
+--CREATE DATA
+CREATE PROC SP_Medicationlist_Add1
+(
+@PrescriptionID VARCHAR(100),
+@CustomerID VARCHAR(100),
+@DoctorID VARCHAR(100),
+@Medication VARCHAR(100),
+@Dosage VARCHAR(100),
+@Frequency VARCHAR(100),
+@Duration VARCHAR(100)
+)
+AS BEGIN
+INSERT INTO  tbl_PrescriptionRecords
+(
+PrescriptionID,
+CustomerID,
+DoctorID 
+)
+VALUES
+(
+@PrescriptionID,
+@CustomerID,
+@DoctorID 
+)
+
+INSERT INTO tbl_PrescriptionDetails
+(
+PrescriptionID, 
+Medication,
+Dosage,
+Frequency,
+Duration
+)
+VALUES
+(
+@PrescriptionID, 
+@Medication,
+@Dosage,
+@Frequency,
+@Duration
+)
+END
+
+
+--VIEW ALL DETAILS
+
+CREATE PROC SP_tblPrescription_VWall
+AS BEGIN
+SELECT 
+pr.id,
+pr.PrescriptionID,
+pr.CustomerID,
+pr.DoctorID,
+pd.Medication,
+pd.Dosage,
+pd.Frequency,
+pd.Duration
+FROM 
+tbl_PrescriptionRecords pr
+LEFT JOIN 
+tbl_PrescriptionDetails pd ON pr.PrescriptionID = pd.PrescriptionID
+END
+
+--VIEW ONE DETAILS
+CREATE PROC SP_tblPrescription_Getone 
+(
+@id INT
+)
+AS BEGIN
+SELECT 
+pr.id,
+pr.PrescriptionID,
+pr.CustomerID,
+pr.DoctorID,
+pd.Medication,
+pd.Dosage,
+pd.Frequency,
+pd.Duration
+FROM 
+tbl_PrescriptionRecords pr
+LEFT JOIN 
+tbl_PrescriptionDetails pd ON pr.PrescriptionID = pd.PrescriptionID
+
+WHERE pr.id=@id
+END
+
+SELECT* FROM tbl_PrescriptionRecords
+SELECT* FROM tbl_PrescriptionDetails
+
+--EDIT DETAILS
+CREATE PROC SP_tblPrescription_Edit
+(
+@id INT,
+@PrescriptionID VARCHAR(100),
+@CustomerID VARCHAR(100),
+@DoctorID VARCHAR(100),
+@Medication VARCHAR(100),
+@Dosage VARCHAR(100),
+@Frequency VARCHAR(100),
+@Duration VARCHAR(100)
+)
+AS BEGIN
+UPDATE tbl_PrescriptionRecords SET
+PrescriptionID=@PrescriptionID,
+CustomerID=@CustomerID,
+DoctorID=@DoctorID 
+WHERE id=@id
+
+
+UPDATE tbl_PrescriptionDetails SET
+PrescriptionID=@PrescriptionID, 
+Medication=@Medication,
+Dosage=@Dosage,
+Frequency=@Frequency,
+Duration=@Duration
+WHERE id=@id
+END
+
+
+--DELETE DETAILS
+CREATE PROC SP_tblPrescription_Delete
+(
+@id INT
+)
+AS BEGIN
+DELETE FROM tbl_PrescriptionDetails WHERE id=@id
+
+DELETE FROM tbl_PrescriptionRecords WHERE id=@id
+END
+
+
+--SEARCH DETAILS
+ALTER PROC
+SP_tblPrescription_Search
+(
+@Searchdata VARCHAR(100)
+)
+AS
+BEGIN
+SELECT
+pr.id,
+pr.PrescriptionID,
+pr.CustomerID,
+pr.DoctorID,
+pd.Medication,
+pd.Dosage,
+pd.Frequency,
+pd.Duration
+FROM 
+tbl_PrescriptionRecords pr
+INNER JOIN 
+tbl_PrescriptionDetails pd ON pr.PrescriptionID = pd.PrescriptionID
+WHERE 
+pr.PrescriptionID LIKE '%' + @Searchdata + '%' OR
+pr.CustomerID LIKE '%' + @Searchdata + '%' OR
+pr.DoctorID LIKE '%' + @Searchdata + '%' OR
+pd.PrescriptionID LIKE '%' + @Searchdata + '%' OR 
+pd.Medication LIKE '%' + @Searchdata + '%' OR
+pd.Dosage LIKE '%' + @Searchdata + '%' OR
+pd.Frequency LIKE '%' + @Searchdata + '%' OR
+pd.Duration LIKE '%' + @Searchdata + '%';
+END
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+--------------------------------------------------------------
+  ---9.Prescription Management -Prescription Verification
+--------------------------------------------------------------
+
+CREATE TABLE tbl_PresVerification
+(
+id INT IDENTITY(1,1)PRIMARY KEY,
+PName VARCHAR(100),--PatientName
+PresimagePath VARCHAR(100),
+verifystatus VARCHAR(100),
+pharmacistnotes VARCHAR(100)
+);
+
+
+
+---------------------------------------------------------------
+ -- STORED PROCEDURE FOR Prescription Verification TABLE
+----------------------------------------------------------------
+
+--CREATE DATA
+CREATE PROC SP_tblPresVerification_Add 
+(
+@PName VARCHAR(100),
+@PresimagePath VARCHAR(100),
+@verifystatus VARCHAR(100),
+@pharmacistnotes VARCHAR(100)
+)
+AS BEGIN
+INSERT INTO tbl_PresVerification
+(
+PName,
+PresimagePath,
+verifystatus,
+pharmacistnotes
+)
+VALUES
+(
+@PName,
+@PresimagePath,
+@verifystatus,
+@pharmacistnotes
+)
+END
+
+
+--VIEW ALL DATA
+CREATE PROC SP_tblPresVerification_VWall
+AS BEGIN
+SELECT* FROM tbl_PresVerification
+END
+
+-- VIEW ONE DATA
+CREATE PROC SP_tblPresVerification_Getone
+(
+@id INT
+)
+AS BEGIN
+SELECT* FROM tbl_PresVerification WHERE id=@id
+END
+
+-- EDIT DATA
+
+CREATE PROC SP_tblPresVerification_Edit
+(
+@id INT,
+@PName VARCHAR(100),
+@PresimagePath VARCHAR(100),
+@verifystatus VARCHAR(100),
+@pharmacistnotes VARCHAR(100)
+)
+AS BEGIN
+UPDATE tbl_PresVerification SET
+PName=@PName,
+PresimagePath=@PresimagePath,
+verifystatus=@verifystatus,
+pharmacistnotes=@pharmacistnotes
+WHERE id=@id
+END
+
+
+--DELETE DATA
+
+CREATE PROC SP_tblPresVerification_Delete
+(
+@id INT
+)
+AS BEGIN
+DELETE FROM tbl_PresVerification WHERE id=@id
+END
+
+---SEARCH DATA
+CREATE PROC SP_tblPresVerification_Search
+(
+@Searchdata VARCHAR(100)
+)
+AS BEGIN
+SELECT* FROM tbl_PresVerification WHERE
+PName LIKE '%' +@Searchdata+ '%' OR
+PresimagePath LIKE '%' +@Searchdata+ '%' OR
+verifystatus LIKE '%' +@Searchdata+ '%' OR
+pharmacistnotes LIKE '%' +@Searchdata+ '%';
+END
+
+
+-------------------------------------------------------------
+   ---10.Analytics and Reporting-Sales Reports:
+--------------------------------------------------------------
+CREATE TABLE tblSalesReport
+(
+id INT IDENTITY(1,1) PRIMARY KEY,
+ReportID VARCHAR(100),
+StartDate DATETIME,
+EndDate DATETIME,
+Totalsales VARCHAR(100),
+Avgordervalue VARCHAR(100),
+Topsellproducts VARCHAR(100)
+);
+
+ALTER table tblSalesReport
+    Add column EndDate DATE AFTER column_name56 
+-------------------------------------------------------------
+ -- STORED PROCEDURE FOR Reporting-Sales
+ ------------------------------------------------------------
+
+ --CREATE DATA
+ ALTER PROC SP_tblSalesReport_Add
+ (
+@ReportID VARCHAR(100),
+@StartDate DATETIME,
+@EndDate DATETIME,
+@Totalsales VARCHAR(100),
+@Avgordervalue VARCHAR(100),
+@Topsellproducts VARCHAR(100)
+)
+AS BEGIN
+ INSERT INTO tblSalesReport
+ (
+ReportID,
+StartDate,
+EndDate,
+Totalsales,
+Avgordervalue,
+Topsellproducts
+)
+VALUES
+(
+@ReportID,
+@StartDate,
+@EndDate,
+@Totalsales,
+@Avgordervalue,
+@Topsellproducts
+)
+END
+
+--VIEW ALL DATA
+
+ALTER PROC SP_tblSalesReport_VWall
+AS BEGIN
+SELECT* FROM tblSalesReport
+END
+
+-- VIEW ONE DATA
+ALTER PROC SP_tblSalesReport_Getone
+(
+@id INT
+)
+AS BEGIN
+SELECT* FROM tblSalesReport WHERE id=@id
+END
+
+
+--EDIT DATA
+ALTER PROC SP_tblSalesReport_Edit
+(
+@id INT,
+@ReportID VARCHAR(100),
+@StartDate DATETIME,
+@EndDate DATETIME,
+@Totalsales VARCHAR(100),
+@Avgordervalue VARCHAR(100),
+@Topsellproducts VARCHAR(100)
+)
+AS BEGIN 
+UPDATE tblSalesReport SET
+ReportID=@ReportID,
+StartDate=@StartDate,
+EndDate=@EndDate,
+Totalsales=@Totalsales,
+Avgordervalue=@Avgordervalue,
+Topsellproducts=@Topsellproducts
+WHERE id=@id
+END
+
+
+-- DELETE DATA
+ALTER PROC SP_tblSalesReport_Delete
+(
+@id INT
+)
+AS BEGIN
+DELETE FROM tblSalesReport WHERE id=@id
+END
+
+--SEARCH DATA
+ALTER PROC SP_tblSalesReport_Search
+(
+@Searchdata VARCHAR(100)
+)
+AS BEGIN
+SELECT* FROM tblSalesReport WHERE
+ReportID LIKE '%' +@Searchdata+ '%' OR
+StartDate  LIKE '%' +@Searchdata+ '%' OR
+EndDate  LIKE '%' +@Searchdata+ '%' OR
+Totalsales LIKE '%' +@Searchdata+ '%' OR
+Avgordervalue LIKE '%' +@Searchdata+ '%' OR
+Topsellproducts LIKE '%' +@Searchdata+ '%';
+END
+
+
+
+-------------------------------------------------------------
+   ---11.Analytics and Reporting-Inventory Reports:
+--------------------------------------------------------------
+
+CREATE TABLE tbl_InventoryInfo
+(
+id INT IDENTITY(1,1),
+Stocklevels VARCHAR(100), 
+Reorderpoints VARCHAR(100),
+SupplierInfo VARCHAR(100),
+BatchNo VARCHAR(100)
+
+);
+
+
+CREATE TABLE tblInventoryReports
+(
+id INT IDENTITY(1,1)PRIMARY KEY,
+Stocklevels VARCHAR(100),
+Expirationdates DATE,
+Reorderpoints VARCHAR(100)
+
+);
+
+------------------------------------------------------------------
+-- STORED PROCEDURE FOR Inventory Reports:
+-------------------------------------------------------------
+
+
+---AUTO GENERATE VALUES TO STORE TEXT BOX
+
+ALTER PROC SP_tbl_InventoryInfo_AutoValue
+(
+@id INT
+)
+AS BEGIN
+SELECT Stocklevels,Reorderpoints FROM tbl_InventoryInfo
+
+WHERE id=@id
+END
+
+
+
+
+
+
+
+
+
+
+--CREATE DATA
+CREATE PROC SP_tblInventoryReports_Add
+(
+@Stocklevels VARCHAR(100),
+@Expirationdates DATE,
+@Reorderpoints VARCHAR(100)
+)
+AS BEGIN
+INSERT INTO tblInventoryReports
+(
+Stocklevels,
+Expirationdates,
+Reorderpoints
+)
+VALUES
+(
+@Stocklevels,
+@Expirationdates,
+@Reorderpoints
+)
+END
+
+
+-- VIEW ALL DATA
+CREATE PROC SP_tblInventoryReports_VWall
+AS BEGIN
+SELECT* FROM tblInventoryReports
+END
+
+-- VIEW ONE DATA
+CREATE PROC SP_tblInventoryReports_Getone
+(
+@id INT 
+)
+AS BEGIN
+SELECT* FROM tblInventoryReports WHERE id=@id
+END
+
+--EDIT DATA
+CREATE PROC SP_tblInventoryReports_Edit
+(
+@id INT,
+@Stocklevels VARCHAR(100),
+@Expirationdates DATE,
+@Reorderpoints VARCHAR(100)
+)
+
+AS BEGIN
+UPDATE tblInventoryReports SET
+Stocklevels=@Stocklevels,
+Expirationdates=@Expirationdates,
+Reorderpoints=@Reorderpoints
+
+WHERE id=@id
+END
+
+
+--DELETE DATA
+CREATE PROC SPtblInventoryReportsDelete
+(
+@id INT
+)
+AS BEGIN
+DELETE FROM tblInventoryReports WHERE id=@id
+END
+
+
+--SEARHC DATA 
+CREATE PROC SP_tblInventoryReports_Search
+(
+@Searchdata VARCHAR(100)
+)
+AS BEGIN
+SELECT* FROM tblInventoryReports WHERE
+Stocklevels LIKE '%' +@Searchdata+ '%' OR
+Expirationdates LIKE '%' +@Searchdata+ '%' OR
+Reorderpoints LIKE '%' +@Searchdata+ '%' ;
+END
+
+
+
+
+
+------------------------------------------------------------
+   --12.Healthcare Information-Drug Information
+---------------------------------------------------------------
+
+CREATE TABLE tblDrugInfo
+(
+id INT IDENTITY(1,1),
+Medication VARCHAR(100),
+Usageinstructions VARCHAR(100), 
+Sideeffects VARCHAR(100),
+Interactions VARCHAR(100)
+);
+
+
+-----------------------------------------------------------------
+-- STORED PROCEDURE FOR tblDrugInfo
+-----------------------------------------------------------
+
+--CREATE DATA
+CREATE PROC SPtblDrugInfo_Add
+(
+@Medication VARCHAR(100),
+@Usageinstructions VARCHAR(100), 
+@Sideeffects VARCHAR(100),
+@Interactions VARCHAR(100)
+)
+AS BEGIN
+INSERT INTO tblDrugInfo
+(
+Medication,
+Usageinstructions, 
+Sideeffects,
+Interactions 
+)
+VALUES
+(
+@Medication,
+@Usageinstructions, 
+@Sideeffects,
+@Interactions 
+)
+END
+
+
+-- VIEW ALL DATA
+CREATE PROC SP_tblDrugInfo_VWall
+AS BEGIN
+SELECT* FROM tblDrugInfo
+END
+
+-- VIEW ONE DATA
+CREATE PROC SP_tblDrugInfo_Getone
+(
+@id INT
+)
+AS BEGIN
+SELECT* FROM tblDrugInfo WHERE id=@id
+END
+
+--EDIT DATA
+CREATE PROC SP_tblDrugInfo_Edit
+(
+@id INT,
+@Medication VARCHAR(100),
+@Usageinstructions VARCHAR(100), 
+@Sideeffects VARCHAR(100),
+@Interactions VARCHAR(100)
+)
+AS BEGIN
+UPDATE tblDrugInfo SET
+Medication=@Medication,
+Usageinstructions=@Usageinstructions, 
+Sideeffects=@Sideeffects,
+Interactions=@Interactions
+WHERE id=@id
+END
+
+---DELETE DATA
+CREATE PROC SP_tblDrugInfo_Delete
+(
+@id INT
+)
+AS BEGIN
+DELETE FROM tblDrugInfo WHERE id=@id
+END
+
+
+--SEARCH DATA 
+CREATE PROC SP_tblDrugInfo_Search
+(
+@Searchdata VARCHAR(100)
+)
+AS BEGIN
+SELECT* FROM tblDrugInfo WHERE
+Medication LIKE '%' +@Searchdata+ '%' OR
+Usageinstructions LIKE '%' +@Searchdata+ '%' OR 
+Sideeffects LIKE '%' +@Searchdata+ '%' OR
+Interactions LIKE '%' +@Searchdata+ '%';
+END
+
+
+
+------------------------------------------------------------
+  -- CALL BACK REQUEST TABLE
+--------------------------------------------------------------
+
+CREATE TABLE tbl_Request
+(
+id INT IDENTITY(1,1) PRIMARY KEY,
+Name VARCHAR(100),
+PhoneNumber VARCHAR(100),
+Email VARCHAR(100),
+Selectmedicine VARCHAR(100),
+Message VARCHAR(100)
+);
+
+
+------------------------------------------------------------
+ -- STORED PROCEDURE FOR CALL BACK REQUEST TABLE
+--------------------------------------------------------------
+
+---CREATE DATA
+CREATE PROC SP_tbl_Request_Add
+(
+@Name VARCHAR(100),
+@PhoneNumber VARCHAR(100),
+@Email VARCHAR(100),
+@Selectmedicine VARCHAR(100),
+@Message VARCHAR(100)
+)
+AS BEGIN
+INSERT INTO tbl_Request
+(
+Name,
+PhoneNumber,
+Email,
+Selectmedicine,
+Message
+)
+VALUES
+(
+@Name,
+@PhoneNumber,
+@Email,
+@Selectmedicine,
+@Message
+)
+END
+
+
+---VIEW ALL DATA
+CREATE PROC SP_tbl_RequestVWall
+AS BEGIN
+SELECT* FROM tbl_Request
+END
+
+-- VIEW ONE DATA
+CREATE  PROC SP_tbl_Request_Getone
+(
+@id INT
+)
+AS BEGIN
+SELECT* FROM tbl_Request WHERE id=@id
+END
+
+--EDIT DATA
+CREATE PROC SP_tbl_Request_Edit
+(
+@id INT,
+@Name VARCHAR(100),
+@PhoneNumber VARCHAR(100),
+@Email VARCHAR(100),
+@Selectmedicine VARCHAR(100),
+@Message VARCHAR(100)
+)
+AS BEGIN
+UPDATE tbl_Request SET
+Name=@Name,
+PhoneNumber=@PhoneNumber,
+Email=@Email,
+Selectmedicine=@Selectmedicine,
+Message=@Message
+WHERE id=@id
+END
+
+
+---DELETE DATA 
+CREATE PROC SP_tblRequest_Delete
+(
+@id INT
+)
+AS BEGIN
+DELETE FROM tbl_Request WHERE id=@id
+END
+
+--SEARCH DATA
+CREATE PROC SP_tblRequest_Search
+(
+@Searchdata VARCHAR(100)
+)
+AS BEGIN
+SELECT* FROM tbl_Request WHERE
+Name LIKE '%' +@Searchdata+ '%' OR
+PhoneNumber LIKE '%' +@Searchdata+ '%' OR
+Email LIKE '%' +@Searchdata+ '%' OR
+Selectmedicine LIKE '%' +@Searchdata+ '%' OR
+Message LIKE '%' +@Searchdata+ '%';
+END
+
+
+
+

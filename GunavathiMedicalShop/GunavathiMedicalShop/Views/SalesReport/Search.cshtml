@@ -1,0 +1,92 @@
+﻿@model IEnumerable<GunavathiMedicalShop.Models.SalesReport>
+
+@{
+    ViewBag.Title = "Search";
+}
+
+<h4 class="text-center mt-5 mb-5" style="color:chocolate">Search Sales Report Details</h4>
+<hr />
+<p>
+    @Html.ActionLink("Go To Index", "Index")
+</p>
+
+
+
+@using (Html.BeginForm())
+{
+
+    @Html.AntiForgeryToken()
+
+    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+    <div class="offset-5 text-dark">
+        <div class="form-group">
+            <label for="Search">Search Sales Report List</label>
+            <input type="search" class="form-control" name="Search" placeholder="Search Sales Report List" />
+        </div>
+
+
+        <div class="form-group mt-2">
+
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Search" class="btn btn-success" />
+            </div>
+
+
+        </div>
+
+    </div>
+}
+
+
+
+<table class="table table-primary table-hover mt-5">
+    <tr style="vertical-align:middle">
+        <th>
+            @Html.DisplayNameFor(model => model.ReportID)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.StartDate)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.EndDate)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Totalsales)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Avgordervalue)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Topsellproducts)
+        </th>
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr style="vertical-align:middle">
+            <td>
+                @Html.DisplayFor(modelItem => item.ReportID)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.StartDate)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.EndDate)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Totalsales)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Avgordervalue)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Topsellproducts)
+            </td>
+            <td>
+            </td>
+        </tr>
+    }
+
+</table>

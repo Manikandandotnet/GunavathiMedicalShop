@@ -1,0 +1,115 @@
+﻿@model IEnumerable<GunavathiMedicalShop.Models.Prescription>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h4 class="text-center mt-5 mb-5" style="color:chocolate">Prescription Details</h4>
+<hr />
+
+
+
+@if (TempData["Message"] != null)
+{
+    <div class="alert alert-success alert-dismissible " role="alert">
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+        @TempData["Message"]
+    </div>
+}
+
+
+
+@if (TempData["Error"] != null)
+{
+    <div class="alert alert-danger alert-dismissible " role="alert">
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+        @TempData["Error"]
+    </div>
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+
+    &nbsp; &nbsp; &nbsp; &nbsp;
+    @Html.ActionLink("Search", "Search")
+</p>
+<table class="table table-primary table-hover">
+    <tr style="vertical-align:middle">
+        <th>
+            @Html.DisplayNameFor(model => model.PrescriptionID)
+        </th>
+
+
+        <th>
+            @Html.DisplayNameFor(model => model.CustomerID)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.DoctorID)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Medication)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Dosage)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Frequency)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Duration)
+        </th>
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr style="vertical-align:middle">
+            <td>
+                @Html.DisplayFor(modelItem => item.PrescriptionID)
+            </td>
+
+
+            <td>
+                @Html.DisplayFor(modelItem => item.CustomerID)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.DoctorID)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Medication)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Dosage)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Frequency)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Duration)
+            </td>
+            <td>
+                @Html.ActionLink("Edit", "Edit", new { id = item.id }) |
+                @Html.ActionLink("Details", "Details", new { id = item.id }) |
+                @Html.ActionLink("Delete", "Delete", new { id = item.id })
+            </td>
+        </tr>
+    }
+
+</table>

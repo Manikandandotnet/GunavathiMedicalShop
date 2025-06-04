@@ -1,0 +1,8 @@
+	<connectionStrings>
+		<add
+			name="MyConnection"
+			connectionString="
+			Data Source=DESKTOP-CPULBN6\SQLEXPRESS;Initial Catalog=MedicalStore;Integrated Security=True"
+			providerName="System.Data.SqlClient"
+			/>
+	</connectionStrings>

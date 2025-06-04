@@ -1,0 +1,133 @@
+﻿@model IEnumerable<GunavathiMedicalShop.Models.MedicationListModel>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+
+<h4 class="text-center mt-5 mb-5" style="color:chocolate">Medication List Details</h4>
+<hr />
+
+@if (TempData["Message"] != null)
+{
+    <div class="alert alert-success alert-dismissible " role="alert">
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+        @TempData["Message"]
+    </div>
+}
+
+
+
+@if (TempData["Error"] != null)
+{
+    <div class="alert alert-danger alert-dismissible " role="alert">
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+        @TempData["Error"]
+    </div>
+}
+
+
+
+
+
+
+
+
+
+
+
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    @Html.ActionLink("Search", "Search")
+</p>
+<table class="table table-primary table-hover">
+    <tr style="vertical-align: middle">
+        <th>
+            @Html.DisplayNameFor(model => model.ProductID)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Name)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Description)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.price)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Dosage)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Expirationdate)
+        </th>
+        <th>
+
+            @Html.DisplayNameFor(model => model.ImagePath)
+
+
+
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.BrandID)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.BrandName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.MedicationBrandID)
+        </th>
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr style="vertical-align:middle">
+            <td>
+                @Html.DisplayFor(modelItem => item.ProductID)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Description)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.price)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Dosage)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Expirationdate)
+            </td>
+            <td>
+                @*@Html.DisplayFor(modelItem => item.ImagePath)*@
+
+                <img src="~/Content/profiles/@item.ImagePath" height="100" style="border-radius:5px" />
+
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.BrandID)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.BrandName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.MedicationBrandID)
+            </td>
+            <td>
+                @Html.ActionLink("Edit", "Edit", new { id = item.id }) |
+                @Html.ActionLink("Details", "Details", new { id = item.id }) |
+                @Html.ActionLink("Delete", "Delete", new { id = item.id })
+            </td>
+        </tr>
+    }
+
+</table>

@@ -1,0 +1,100 @@
+﻿@model IEnumerable<GunavathiMedicalShop.Models.OrderItemModel>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+
+<h4 style="color:chocolate" class="text-center mt-5 mb-5">Order Item Details</h4>
+<hr />
+
+
+
+@if (TempData["Message"] != null)
+{
+    <div class="alert alert-success alert-dismissible " role="alert">
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+        @TempData["Message"]
+    </div>
+}
+
+
+
+@if (TempData["Error"] != null)
+{
+    <div class="alert alert-danger alert-dismissible " role="alert">
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+        @TempData["Error"]
+    </div>
+}
+
+
+
+
+
+
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+    &nbsp;&nbsp;&nbsp;&nbsp;
+
+    @Html.ActionLink("Search", "Search")
+</p>
+
+
+<div class="position-relative">
+    <div class="position-absolute bottom-0 end-0">
+        <p>
+            @Html.ActionLink("Next Records", "IndexOrder")
+        </p>
+
+    </div>
+</div>
+
+<table class="table table-primary table-hover mt-5">
+    <tr style="vertical-align:middle">
+
+        <th>
+            @Html.DisplayNameFor(model => model.OrderID)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.ProductID)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Quantity)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Price)
+        </th>
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr style="vertical-align:middle">
+
+            <td>
+                @Html.DisplayFor(modelItem => item.OrderID)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ProductID)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Quantity)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Price)
+            </td>
+            <td>
+                @Html.ActionLink("Edit", "Edit", new { id = item.id }) |
+                @Html.ActionLink("Details", "Details", new { id = item.id }) |
+                @Html.ActionLink("Delete", "Delete", new { id = item.id })
+            </td>
+        </tr>
+    }
+
+</table>
